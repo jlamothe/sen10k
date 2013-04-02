@@ -156,6 +156,13 @@ static double table[][2] =
 /// \return The resulting temperature (in Celsius).
 static double lookup(double res);
 
+/// \brief Tests to see if a number is within a range.
+/// \param x The number being tested.
+/// \param x1 One end of the ragne.
+/// \param x2 The other end of the range.
+/// \return true if the number is within the range; false otherwise.
+bool is_between(double x, double x1, double x2);
+
 /// \brief Reads the resistance on an analog input.
 /// \param pin The analog pin number.
 /// \param res The resistance on the pull-down resistor.
@@ -171,8 +178,28 @@ double read_10k(int pin, double res)
 
 double lookup(double res)
 {
-    // TODO: implement lookup table
+    double **i;
+    for(i = table; i[0] && i[1]; i++)
+    {
+        double x1 = i[0][0],
+               y1 = i[0][1],
+               x2 = i[1][0],
+               y2 = i[1][1];
+        if(is_between(res, x1, x2))
+        {
+            if(res == x1)
+                return y1;
+            if(res == x2)
+                return y2;
+            return (y2 - y1) / (x2 - x1) * (res - x1) + y1;
+        }
+    }
     return 0;
+}
+
+bool is_between(double x, double x1, double x2)
+{
+    return x >= min(x1, x2) && x <= max(x1, x2);
 }
 
 double get_resistance(int pin, double res)
