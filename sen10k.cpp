@@ -178,7 +178,7 @@ double read_10k(int pin, double res)
 
 double lookup(double res)
 {
-    double **i;
+    double (*i)[2];
     for(i = table; i[0] && i[1]; i++)
     {
         double x1 = i[0][0],
