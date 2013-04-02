@@ -185,14 +185,12 @@ double lookup(double res)
                y1 = i[0][1],
                x2 = i[1][0],
                y2 = i[1][1];
+        if(res == x1)
+            return y1;
+        if(res == x2)
+            return y2;
         if(is_between(res, x1, x2))
-        {
-            if(res == x1)
-                return y1;
-            if(res == x2)
-                return y2;
             return (y2 - y1) / (x2 - x1) * (res - x1) + y1;
-        }
     }
     return 0;
 }
